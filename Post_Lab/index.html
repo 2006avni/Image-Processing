@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Processing Lab | OpenCV</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <div class="logo-area">
+
+                <div class="logo-icon">
+                    📷
+                </div>
+
+                <div>
+                    <h1>IMAGE PROCESSING LAB</h1>
+                    <p>OpenCV Practical Demonstration</p>
+                </div>
+
+            </div>
+
+            <div class="header-badge">
+                <span>Python</span>
+                <span>OpenCV</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-container">
+
+
+        <!-- ================= LEFT CONTROL PANEL ================= -->
+
+        <section class="control-panel">
+
+            <div class="panel-title">
+
+                <h2>⚙️ Image Processing Controls</h2>
+
+                <p>
+                    Select an image and practical operation
+                </p>
+
+            </div>
+
+
+            <!-- IMAGE UPLOAD -->
+
+            <div class="control-group">
+
+                <label for="imageInput">
+                    📷 Upload Image
+                </label>
+
+                <div class="upload-box">
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        accept="image/*"
+                    >
+
+                    <div class="upload-content">
+
+                        <div class="upload-icon">
+                            ⬆️
+                        </div>
+
+                        <h3>
+                            Choose an Image
+                        </h3>
+
+                        <p>
+                            JPG, JPEG, PNG, BMP or WEBP
+                        </p>
+
+                        <span id="fileName">
+                            No image selected
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRACTICAL SELECTION -->
+
+            <div class="control-group">
+
+                <label for="practicalSelect">
+                    🧪 Select Practical
+                </label>
+
+                <select id="practicalSelect">
+
+                    <option value="">
+                        -- Select Practical --
+                    </option>
+
+                    <option value="format">
+                        Image Format &amp; Operations
+                    </option>
+
+                    <option value="geometric">
+                        2-D Geometric Transformations
+                    </option>
+
+                    <option value="enhancement">
+                        Image Enhancement
+                    </option>
+
+                    <option value="filters">
+                        Spatial Filters
+                    </option>
+
+                    <option value="inpainting">
+                        Image Inpainting
+                    </option>
+
+                    <option value="compression">
+                        Lossless Compression
+                    </option>
+
+                    <option value="morphology">
+                        Morphological Operations
+                    </option>
+
+                    <option value="detection">
+                        Object Detection
+                    </option>
+
+                    <!-- NEW PRACTICALS -->
+
+                    <option value="colour">
+                        Colour Space Conversion
+                    </option>
+
+                    <option value="edges">
+                        Edge Detection
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- OPERATION -->
+
+            <div class="control-group">
+
+                <label for="operationSelect">
+                    🔧 Select Operation
+                </label>
+
+                <select id="operationSelect">
+
+                    <option value="">
+                        -- Select Operation --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DYNAMIC PARAMETERS -->
+
+            <div
+                id="parametersContainer"
+                class="parameters-container"
+            >
+
+                <!-- Parameters will appear here -->
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="button-group">
+
+                <button
+                    id="applyBtn"
+                    class="btn btn-primary"
+                    type="button"
+                >
+                    ▶ Apply
+                </button>
+
+
+                <button
+                    id="resetBtn"
+                    class="btn btn-secondary"
+                    type="button"
+                >
+                    ↻ Reset
+                </button>
+
+
+                <button
+                    id="downloadBtn"
+                    class="btn btn-success"
+                    type="button"
+                    disabled
+                >
+                    ⬇ Download
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= IMAGE PREVIEW ================= -->
+
+        <section class="preview-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        🖼️ Image Preview
+                    </h2>
+
+                    <p>
+                        Compare the original and processed images
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="statusBadge"
+                    class="status-badge"
+                >
+                    Ready
+                </div>
+
+            </div>
+
+
+            <div class="image-comparison">
+
+
+                <!-- ORIGINAL -->
+
+                <div class="image-card">
+
+                    <div class="image-card-header">
+
+                        <h3>
+                            Original Image
+                        </h3>
+
+                        <span class="image-label original-label">
+                            ORIGINAL
+                        </span>
+
+                    </div>
+
+
+                    <div class="image-container">
+
+                        <div
+                            id="originalPlaceholder"
+                            class="image-placeholder"
+                        >
+
+                            <div>
+                                📷
+                            </div>
+
+                            <p>
+                                Upload an image to begin
+                            </p>
+
+                        </div>
+
+
+                        <img
+                            id="originalImage"
+                            alt="Original Image"
+                        >
+
+                    </div>
+
+
+                    <div class="image-info">
+
+                        <span id="originalDimensions">
+                            Dimensions: —
+                        </span>
+
+                        <span id="originalSize">
+                            Size: —
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ARROW -->
+
+                <div class="comparison-arrow">
+                    →
+                </div>
+
+
+                <!-- PROCESSED -->
+
+                <div class="image-card">
+
+                    <div class="image-card-header">
+
+                        <h3>
+                            Processed Image
+                        </h3>
+
+                        <span class="image-label processed-label">
+                            PROCESSED
+                        </span>
+
+                    </div>
+
+
+                    <div class="image-container">
+
+                        <div
+                            id="processedPlaceholder"
+                            class="image-placeholder"
+                        >
+
+                            <div>
+                                ⚙️
+                            </div>
+
+                            <p>
+                                Processed image will appear here
+                            </p>
+
+                        </div>
+
+
+                        <img
+                            id="processedImage"
+                            alt="Processed Image"
+                        >
+
+
+                        <div
+                            id="processingLoader"
+                            class="processing-loader"
+                        >
+
+                            <div class="spinner"></div>
+
+                            <p>
+                                Processing...
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="image-info">
+
+                        <span id="processedDimensions">
+                            Dimensions: —
+                        </span>
+
+                        <span id="processedSize">
+                            Size: —
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= COMPRESSION INFO ================= -->
+
+            <div
+                id="compressionPanel"
+                class="compression-panel hidden"
+            >
+
+                <h3>
+                    📊 Compression Comparison
+                </h3>
+
+
+                <div class="compression-grid">
+
+
+                    <div class="compression-item">
+
+                        <span>
+                            Original File Size
+                        </span>
+
+                        <strong id="compressionOriginal">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="compression-item">
+
+                        <span>
+                            Compressed File Size
+                        </span>
+
+                        <strong id="compressionCompressed">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="compression-item">
+
+                        <span>
+                            Space Saved
+                        </span>
+
+                        <strong id="compressionSaved">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="compression-item">
+
+                        <span>
+                            Compression Ratio
+                        </span>
+
+                        <strong id="compressionRatio">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= RESULT MESSAGE ================= -->
+
+            <div
+                id="resultMessage"
+                class="result-message"
+            >
+                Select an image and practical to start.
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= PRACTICAL INFORMATION ================= -->
+
+    <section class="practical-section">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    📚 Available Practicals
+                </h2>
+
+                <p>
+                    Image Processing Laboratory Operations
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="practical-grid">
+
+
+            <!-- FORMAT -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🎨
+                </div>
+
+                <h3>
+                    Image Format &amp; Operations
+                </h3>
+
+                <ul>
+
+                    <li>
+                        RGB → Grayscale
+                    </li>
+
+                    <li>
+                        Arithmetic Operations
+                    </li>
+
+                    <li>
+                        Bitwise Operations
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- GEOMETRIC -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    📐
+                </div>
+
+                <h3>
+                    2-D Geometric Transformations
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Translation
+                    </li>
+
+                    <li>
+                        Rotation
+                    </li>
+
+                    <li>
+                        Scaling
+                    </li>
+
+                    <li>
+                        Shearing
+                    </li>
+
+                    <li>
+                        Reflection
+                    </li>
+
+                    <li>
+                        Cropping
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- ENHANCEMENT -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    ✨
+                </div>
+
+                <h3>
+                    Image Enhancement
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Histogram Equalization
+                    </li>
+
+                    <li>
+                        Smoothing
+                    </li>
+
+                    <li>
+                        Sharpening
+                    </li>
+
+                    <li>
+                        Thresholding
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🔍
+                </div>
+
+                <h3>
+                    Spatial Filters
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Averaging Filter
+                    </li>
+
+                    <li>
+                        Gaussian Filter
+                    </li>
+
+                    <li>
+                        Median Filter
+                    </li>
+
+                    <li>
+                        Bilateral Filter
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- INPAINTING -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🩹
+                </div>
+
+                <h3>
+                    Image Inpainting
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Telea Method
+                    </li>
+
+                    <li>
+                        Navier-Stokes Method
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- COMPRESSION -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🗜️
+                </div>
+
+                <h3>
+                    Lossless Compression
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Original File Size
+                    </li>
+
+                    <li>
+                        Compressed File Size
+                    </li>
+
+                    <li>
+                        Compression Comparison
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- MORPHOLOGY -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    ⚫
+                </div>
+
+                <h3>
+                    Morphological Operations
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Erosion
+                    </li>
+
+                    <li>
+                        Dilation
+                    </li>
+
+                    <li>
+                        Opening
+                    </li>
+
+                    <li>
+                        Closing
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- DETECTION -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Object Detection
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Correlation Principle
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- NEW: COLOUR SPACE CONVERSION -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    🌈
+                </div>
+
+                <h3>
+                    Colour Space Conversion
+                </h3>
+
+                <ul>
+
+                    <li>
+                        RGB Colour Space
+                    </li>
+
+                    <li>
+                        HSV Colour Space
+                    </li>
+
+                    <li>
+                        YCrCb Colour Space
+                    </li>
+
+                    <li>
+                        Lab Colour Space
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- NEW: EDGE DETECTION -->
+
+            <div class="practical-card">
+
+                <div class="card-icon">
+                    📏
+                </div>
+
+                <h3>
+                    Edge Detection
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Canny Edge Detector
+                    </li>
+
+                    <li>
+                        Sobel Edge Detector
+                    </li>
+
+                    <li>
+                        Prewitt Edge Detector
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+
+            <div>
+
+                <h3>
+                    IMAGE PROCESSING LAB
+                </h3>
+
+                <p>
+                    OpenCV Practical Demonstration
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Python • OpenCV • HTML • CSS • JavaScript
+                </p>
+
+                <p>
+                    © 2026 Image Processing Laboratory
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
